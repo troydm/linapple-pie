@@ -237,6 +237,7 @@ static DWORD     dwVBlCounter     = 0;
 static LPBYTE    vidlastmem       = NULL;
 static DWORD     vidmode          = VF_TEXT;
 DWORD     videotype        = VT_COLOR_STANDARD;
+BOOL      videoscanline    = 0;
 
 static bool g_bTextFlashState = false;
 static bool g_bTextFlashFlag = false;
@@ -2016,6 +2017,12 @@ void VideoRefreshScreen () {
 			SDL_SoftStretch(g_hDeviceBitmap,&origRect,g_origscreen,&newRect);
 			SDL_BlitSurface(g_origscreen, NULL, screen, NULL);
 		}
+	
+		if(videoscanline == 1)	
+		for (int i = 1; i < screen->h/4; i+=1)
+		for (int j = 0; j < (screen->w)/sizeof(Uint32); j+=1)
+			((Uint32*)screen->pixels)[(i*(screen->w))+j] = 0x0;
+
 		  if(bStatusShow && g_ShowLeds) SDL_BlitSurface(g_hStatusSurface, NULL, screen, &srect);
 		  SDL_Flip(screen);	// flip SDL buffers
 	//	BitBlt(framedc,0,0,560,384,g_hDeviceDC,0,0,SRCCOPY);

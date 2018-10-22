@@ -472,6 +472,9 @@ void LoadConfiguration ()
 //  printf("Video Emulation = %d\n", videotype);
 
   DWORD dwTmp = 0;	// temp var
+
+  LOAD(TEXT("Video Scanline")   ,&dwTmp);
+  videoscanline = (BOOL) dwTmp;
 	
   LOAD(TEXT("Fullscreen") ,&dwTmp);	// load fullscreen flag
   fullscreen = (BOOL) dwTmp;
